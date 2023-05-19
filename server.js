@@ -1,5 +1,6 @@
 const https = require('https');
 const fs = require('fs');
+const app = require('./app');
 
 const options = {
   key: fs.readFileSync('/opt/ssl-certs/key.pem'),
@@ -13,7 +14,5 @@ https.createServer(options, app).listen(443, () => {
 app.listen(3000, () => {
   console.log('Servidor HTTP iniciado en el puerto 3000');
 });
-
-const App = require('./src/App');
 
 app.use('/', App);
