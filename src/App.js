@@ -114,4 +114,4 @@ const App = () => {
 	);
 };
 
-module.exports = app;
+export default App;
