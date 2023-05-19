@@ -30,8 +30,6 @@ const App = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorModalVisible, setErrorModalVisible] = useState(false);
 
-
-
 	const generateResponse = async (newQuestion, setNewQuestion) => {
 		setIsLoading(true);
 		let options = {
