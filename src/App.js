@@ -6,6 +6,8 @@ import { Modal, Button } from 'react-bootstrap';
 import React from 'react';
 import { useState } from 'react';
 import dotenv from 'dotenv'; // Importa dotenv
+const express = require('express');
+const app = express();
 dotenv.config(); // Carga las variables de entorno del archivo .env
 
 export const textToSpeech = (text) => {
@@ -112,4 +114,4 @@ const App = () => {
 	);
 };
 
-export { App as default };
+module.exports = app;
