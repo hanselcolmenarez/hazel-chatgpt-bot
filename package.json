@@ -21,7 +21,8 @@
     "start:https": "HTTPS=true env-cmd -f .env.https react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-secure": "node server.js"
   },
   "eslintConfig": {
     "extends": [
