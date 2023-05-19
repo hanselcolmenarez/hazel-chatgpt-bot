@@ -1,28 +1,28 @@
-import { Configuration, OpenAIApi } from 'openai';
-
 import FormSection from './components/FormSection';
 import AnswerSection from './components/AnswerSection';
-import { Modal, Button } from 'react-bootstrap';
 
+import { Configuration, OpenAIApi } from 'openai';
+import { Modal, Button } from 'react-bootstrap';
 import React from 'react';
 import { useState } from 'react';
+import dotenv from 'dotenv'; // Importa dotenv
+dotenv.config(); // Carga las variables de entorno del archivo .env
 
+export const textToSpeech = (text) => {
+	if ('speechSynthesis' in window) {
+	  const synthesis = window.speechSynthesis;
+	  const utterance = new SpeechSynthesisUtterance(text);
+	  synthesis.speak(utterance);
+	} else {
+	  console.error('La API de Text-to-Speech no es compatible con este navegador.');
+	}
+  };
 
 const App = () => {
 	const configuration = new Configuration({
 		organization: process.env.REACT_APP_ORGANIZATION,
-		apiKey: process.env.REACT_APP_API_KEY,
+		apiKey: process.env.REACT_APP_OPENAI_API_KEY,
 	});
-
-	const textToSpeech = (text) => {
-		if ('speechSynthesis' in window) {
-			const synthesis = window.speechSynthesis;
-			const utterance = new SpeechSynthesisUtterance(text);
-			synthesis.speak(utterance);
-		} else {
-			console.error('La API de Text-to-Speech no es compatible con este navegador.');
-		}
-	};
 
 	const openai = new OpenAIApi(configuration);
 
@@ -95,7 +95,7 @@ const App = () => {
 			<Modal show={isLoading} backdrop="static" keyboard={false}>
 				<Modal.Body>
 					<div className="spinner-border" role="status">
-						<span className="sr-only">Cargando...</span>
+						<span className="sr-only">Pensando...</span>
 					</div>
 				</Modal.Body>
 			</Modal>
