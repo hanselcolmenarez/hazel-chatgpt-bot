@@ -1,18 +1,19 @@
-import { Configuration, OpenAIApi } from 'openai';
-
 import FormSection from './components/FormSection';
 import AnswerSection from './components/AnswerSection';
+
+import { Configuration, OpenAIApi } from 'openai';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-
-import React from 'react';
-import { useState } from 'react';
-
 
 const App = () => {
 	const configuration = new Configuration({
-		organization: "org-Rnl4ioIFbwuX4nwJx5GsqNxF",
-		apiKey: "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",
+		organization: process.env.REACT_APP_ORGANIZATION,
+		apiKey: process.env.REACT_APP_API_KEY,
 	});
+
+	const [storedValues, setStoredValues] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [errorModalVisible, setErrorModalVisible] = useState(false);
 
 	const textToSpeech = (text) => {
 		if ('speechSynthesis' in window) {
@@ -25,12 +26,6 @@ const App = () => {
 	};
 
 	const openai = new OpenAIApi(configuration);
-
-	const [storedValues, setStoredValues] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [errorModalVisible, setErrorModalVisible] = useState(false);
-
-
 
 	const generateResponse = async (newQuestion, setNewQuestion) => {
 		setIsLoading(true);
@@ -75,6 +70,13 @@ const App = () => {
 		}
 		setIsLoading(false);
 	};
+
+	useEffect(() => {
+		if (!storedValues.length) {
+			const initialText = "Soy un sistema automatizado de preguntas y respuestas, diseñado para ayudarte en la búsqueda de información relevante. Te invito a preguntarme cualquier consulta que puedas tener, y haré todo lo posible para ofrecerte una respuesta fiable. Por favor, ten en cuenta que soy una máquina y opero únicamente en base a algoritmos programados.";
+			textToSpeech(initialText);
+		}
+	}, [storedValues]);
 
 	return (
 		<div>
