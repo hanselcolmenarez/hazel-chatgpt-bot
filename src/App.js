@@ -2,22 +2,34 @@ import { Configuration, OpenAIApi } from 'openai';
 
 import FormSection from './components/FormSection';
 import AnswerSection from './components/AnswerSection';
-import { Modal, Spinner } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+
 import React from 'react';
-
-
 import { useState } from 'react';
+
 
 const App = () => {
 	const configuration = new Configuration({
-    organization: "org-Rnl4ioIFbwuX4nwJx5GsqNxF",
+		organization: "org-Rnl4ioIFbwuX4nwJx5GsqNxF",
 		apiKey: "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",
 	});
+
+	const textToSpeech = (text) => {
+		if ('speechSynthesis' in window) {
+			const synthesis = window.speechSynthesis;
+			const utterance = new SpeechSynthesisUtterance(text);
+			synthesis.speak(utterance);
+		} else {
+			console.error('La API de Text-to-Speech no es compatible con este navegador.');
+		}
+	};
 
 	const openai = new OpenAIApi(configuration);
 
 	const [storedValues, setStoredValues] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [errorModalVisible, setErrorModalVisible] = useState(false);
+
 
 
 	const generateResponse = async (newQuestion, setNewQuestion) => {
@@ -29,8 +41,8 @@ const App = () => {
 			top_p: 1,
 			frequency_penalty: 0.0,
 			presence_penalty: 0.0,
-      stream: false,
-      logprobs: null,
+			stream: false,
+			logprobs: null,
 			stop: ['/'],
 		};
 
@@ -39,19 +51,29 @@ const App = () => {
 			prompt: newQuestion,
 		};
 
-		const response = await openai.createCompletion(completeOptions);
+		try {
 
-		if (response.data.choices) {
-			setStoredValues([
-				{
-					question: newQuestion,
-					answer: response.data.choices[0].text,
-				},
-				...storedValues,
-			]);
-			setNewQuestion('');
-			setIsLoading(false);
+			const response = await openai.createCompletion(completeOptions);
+
+			if (response.data.choices) {
+				setStoredValues([
+					{
+						question: newQuestion,
+						answer: response.data.choices[0].text,
+					},
+					...storedValues,
+				]);
+				setNewQuestion('');
+			}
+		} catch (error) {
+			if (error.response && error.response.status === 401) {
+				console.error('Error de autorización: No estás autorizado para realizar esta acción.');
+				setErrorModalVisible(true);
+			} else {
+				console.error('Error desconocido:', error);
+			}
 		}
+		setIsLoading(false);
 	};
 
 	return (
@@ -73,11 +95,20 @@ const App = () => {
 
 			{storedValues.length > 0 && <AnswerSection storedValues={storedValues} />}
 			<Modal show={isLoading} backdrop="static" keyboard={false}>
-			<Modal.Body>
-				<div className="spinner-border" role="status">
-					<span className="sr-only">Cargando...</span>
-				</div>
-			</Modal.Body>
+				<Modal.Body>
+					<div className="spinner-border" role="status">
+						<span className="sr-only">Cargando...</span>
+					</div>
+				</Modal.Body>
+			</Modal>
+			<Modal show={errorModalVisible} onHide={() => setErrorModalVisible(false)} onShow={() => textToSpeech("No estás autorizado para realizar esta acción.")}>
+				<Modal.Header closeButton>
+					<Modal.Title>Error de autorización</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>No estás autorizado para realizar esta acción.</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setErrorModalVisible(false)}>Cerrar</Button>
+				</Modal.Footer>
 			</Modal>
 		</div>
 	);
