@@ -57,7 +57,7 @@ const App = () => {
 	return (
 		<div>
 			<div className="header-section">
-				<h1>Hazel 🤖</h1>
+				<h1>Hazel <span role="img" aria-label="robot">🤖</span></h1>
 				{storedValues.length < 1 && (
 					<p>
 						Soy un sistema automatizado de preguntas y respuestas, diseñado para ayudarte
@@ -74,8 +74,9 @@ const App = () => {
 			{storedValues.length > 0 && <AnswerSection storedValues={storedValues} />}
 			<Modal show={isLoading} backdrop="static" keyboard={false}>
 			<Modal.Body>
-				<Spinner animation="border" />
-				<p>Cargando...</p>
+				<div className="spinner-border" role="status">
+					<span className="sr-only">Cargando...</span>
+				</div>
 			</Modal.Body>
 			</Modal>
 		</div>
