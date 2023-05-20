@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
+    "start-dev": "react-scripts start",
     "start:https": "HTTPS=true env-cmd -f .env.https react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
