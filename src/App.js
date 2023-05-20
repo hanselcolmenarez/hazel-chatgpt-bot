@@ -11,6 +11,25 @@ export const textToSpeech = (text) => {
 	if ('speechSynthesis' in window) {
 		const synthesis = window.speechSynthesis;
 		const utterance = new SpeechSynthesisUtterance(text);
+		// Obtén las voces disponibles
+		const voices = synthesis.getVoices();
+
+		console.log("Lista de voces: ");
+		for (let i = 0; i < voices.length; i++) {
+			const option = document.createElement("option");
+			option.textContent = `${voices[i].name} (${voices[i].lang})`;
+			console.log(i + ".- " + option.textContent);
+		}
+
+		// Encuentra la voz de mujer en español (Spain)
+		const spanishFemaleVoice = voices.find((voice) => voice.name === 'Microsoft Laura - Spanish (Spain) (es-ES)');
+
+		if (spanishFemaleVoice) {
+			utterance.voice = spanishFemaleVoice;
+		} else {
+			console.warn('No se encontró una voz de mujer en español (Spain).');
+		}
+
 		synthesis.speak(utterance);
 	} else {
 		console.error('La API de Text-to-Speech no es compatible con este navegador.');
@@ -52,8 +71,8 @@ const App = () => {
 
 			const cadenaTexto = completeOptions.prompt;
 			const palabrasClave = ["es tu creador", "te creó", "Quien te creó"];
-			const palabraEncontrada = "Mi creador es el Ingeniero Hansel Colmenarez. Además,";
-			const palabraEncontradaComple = " Uso el modelo text-davinci-003 es una versión específica del modelo de lenguaje GPT (Generative Pre-trained Transformer) desarrollado por OpenAI, conocido como GPT-3.5. He sido entrenada en una amplia variedad de datos textuales para desarrollar habilidades de procesamiento del lenguaje natural, como comprensión de lectura, generación de texto coherente y capacidad para responder preguntas.";
+			var palabraEncontrada = "";
+			var palabraEncontradaComple = "";
 
 			const foundKeywords = palabrasClave.filter(keyword => cadenaTexto.includes(keyword));
 
@@ -62,6 +81,8 @@ const App = () => {
 				foundKeywords.forEach(keyword => {
 					console.log(`- ${keyword}`);
 				});
+				palabraEncontrada = "Mi creador es el Ingeniero Hansel Colmenarez. Además,";
+				palabraEncontradaComple = " Uso el modelo text-davinci-003 el cual es una versión específica del modelo de lenguaje GPT (Generative Pre-trained Transformer) desarrollado por OpenAI, conocido como GPT-3.5. He sido entrenada en una amplia variedad de datos textuales para desarrollar habilidades de procesamiento del lenguaje natural, como comprensión de lectura, generación de texto coherente y capacidad para responder preguntas.";
 				console.log("Mensaje de éxito");
 			} else {
 				console.log("No se encontraron palabras clave.");
