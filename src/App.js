@@ -50,9 +50,27 @@ const App = () => {
 
 		try {
 
+			const cadenaTexto = completeOptions.prompt;
+			const palabrasClave = ["es tu creador", "te creó", "Quien te creó"];
+			const palabraEncontrada = "Mi creador es el Ingeniero Hansel Colmenarez. Además,";
+			const palabraEncontradaComple = " Uso el modelo text-davinci-003 es una versión específica del modelo de lenguaje GPT (Generative Pre-trained Transformer) desarrollado por OpenAI, conocido como GPT-3.5. He sido entrenada en una amplia variedad de datos textuales para desarrollar habilidades de procesamiento del lenguaje natural, como comprensión de lectura, generación de texto coherente y capacidad para responder preguntas.";
+
+			const foundKeywords = palabrasClave.filter(keyword => cadenaTexto.includes(keyword));
+
+			if (foundKeywords.length > 0) {
+				console.log("Se encontraron las siguientes palabras clave:");
+				foundKeywords.forEach(keyword => {
+					console.log(`- ${keyword}`);
+				});
+				console.log("Mensaje de éxito");
+			} else {
+				console.log("No se encontraron palabras clave.");
+			}
+
 			const response = await openai.createCompletion(completeOptions);
 
 			if (response.data.choices) {
+				response.data.choices[0].text = palabraEncontrada + response.data.choices[0].text + palabraEncontradaComple;
 				setStoredValues([
 					{
 						question: newQuestion,
