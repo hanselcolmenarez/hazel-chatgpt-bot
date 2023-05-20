@@ -1,24 +1,21 @@
 import FormSection from './components/FormSection';
 import AnswerSection from './components/AnswerSection';
-
 import { Configuration, OpenAIApi } from 'openai';
 import { Modal, Button } from 'react-bootstrap';
 import React from 'react';
 import { useState } from 'react';
 import dotenv from 'dotenv'; // Importa dotenv
-const express = require('express');
-const app = express();
 dotenv.config(); // Carga las variables de entorno del archivo .env
 
 export const textToSpeech = (text) => {
 	if ('speechSynthesis' in window) {
-	  const synthesis = window.speechSynthesis;
-	  const utterance = new SpeechSynthesisUtterance(text);
-	  synthesis.speak(utterance);
+		const synthesis = window.speechSynthesis;
+		const utterance = new SpeechSynthesisUtterance(text);
+		synthesis.speak(utterance);
 	} else {
-	  console.error('La API de Text-to-Speech no es compatible con este navegador.');
+		console.error('La API de Text-to-Speech no es compatible con este navegador.');
 	}
-  };
+};
 
 const App = () => {
 	const configuration = new Configuration({
@@ -36,8 +33,8 @@ const App = () => {
 		setIsLoading(true);
 		let options = {
 			model: 'text-davinci-003',
-			temperature: 0,
-			max_tokens: 1024,
+			temperature: 0.3,
+			max_tokens: 120,
 			top_p: 1,
 			frequency_penalty: 0.0,
 			presence_penalty: 0.0,
