@@ -7,6 +7,9 @@ const app = express();
 
 // Configura los middlewares y rutas de tu aplicación
 
+// Ruta para servir los archivos estáticos de React
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 // Obtén la ruta del certificado y la clave privada
 const certPath = path.resolve(__dirname, 'cert.pem');
 const keyPath = path.resolve(__dirname, 'key.pem');
