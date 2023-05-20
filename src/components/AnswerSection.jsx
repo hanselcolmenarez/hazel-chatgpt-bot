@@ -8,18 +8,22 @@ const AnswerSection = ({ storedValues }) => {
 
   const [lastAnswer, setLastAnswer] = useState('');
 
-
-
   useEffect(() => {
     // Leer la última respuesta generada automáticamente
     if (storedValues.length > 0) {
       const newAnswer = storedValues[0].answer;
       if (newAnswer !== lastAnswer) {
-        textToSpeech(newAnswer);
         setLastAnswer(newAnswer);
       }
     }
-  }, [storedValues, lastAnswer]);
+  }, [storedValues]);
+
+  useEffect(() => {
+    // Reproducir texto utilizando speech synthesis
+    if (lastAnswer) {
+      textToSpeech(lastAnswer);
+    }
+  }, [lastAnswer]);
 
   const copyAllText = () => {
     const allText = storedValues.map((value) => value.answer).join('\n');
