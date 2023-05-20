@@ -28,3 +28,8 @@ const port = process.env.PORT || 3000;
 server.listen(port, () => {
   console.log(`Servidor HTTPS iniciado en el puerto ${port}`);
 });
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build/index.html'));
+  });
+  
