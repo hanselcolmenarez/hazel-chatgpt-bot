@@ -1,6 +1,6 @@
 const https = require('https');
 const fs = require('fs');
-const app = require('./app');
+const app = require('./src/App');
 
 const options = {
   key: fs.readFileSync('/opt/ssl-certs/key.pem'),
@@ -15,4 +15,4 @@ app.listen(3000, () => {
   console.log('Servidor HTTP iniciado en el puerto 3000');
 });
 
-app.use('/', App);
+app.use('/', app);
