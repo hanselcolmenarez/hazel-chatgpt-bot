@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+video {
+  pointer-events: none;  
+}
+
+#videohazel {
+  max-width: 20px !important;
+  max-height: 20px !important;
+}
+

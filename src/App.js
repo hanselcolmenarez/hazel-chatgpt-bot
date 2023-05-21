@@ -2,10 +2,8 @@ import FormSection from './components/FormSection';
 import AnswerSection from './components/AnswerSection';
 import { Configuration, OpenAIApi } from 'openai';
 import { Modal, Button } from 'react-bootstrap';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dotenv from 'dotenv'; // Importa dotenv
-
-import React, { useEffect } from 'react';
 
 dotenv.config(); // Carga las variables de entorno del archivo .env
 
@@ -39,6 +37,28 @@ export const textToSpeech = (text) => {
 };
 
 const App = () => {
+
+	useEffect(() => {
+		const video = document.getElementById('hazelmodel');
+	
+		const playVideo = () => {
+		  video.play().catch((error) => {
+			console.error('Error al reproducir el video:', error);
+		  });
+		};
+	
+		const handleClick = () => {
+		  document.removeEventListener('click', handleClick);
+		  playVideo();
+		};
+	
+		document.addEventListener('click', handleClick);
+	
+		return () => {
+		  document.removeEventListener('click', handleClick);
+		};
+	  }, []);
+
 	const configuration = new Configuration({
 		organization: process.env.REACT_APP_ORGANIZATION,
 		apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -119,9 +139,12 @@ const App = () => {
 			<div className="header-section">
 				<h1>Hazel <span role="img" aria-label="robot">🤖</span></h1>
 				{storedValues.length < 1 && (
-					<p>
-						Soy un sistema automatizado de preguntas y respuestas, diseñado para ayudarte en la búsqueda de información relevante. Te invito a preguntarme cualquier consultas que puedas tener, y haré todo lo posible para ofrecerte una Respuesta fiable. Por favor, ten en cuenta que soy una máquina y opero únicamente en base a algoritmos programados.
-					</p>
+					<div>
+						<video id="hazelmodel" width="50%" height="50%">
+							<source src="/video/Presentacion-Hazel.mp4" type="video/mp4" />
+							Tu navegador no soporta el elemento de video.
+						</video>
+					</div>
 				)}
 			</div>
 
