@@ -2,9 +2,11 @@ import FormSection from './components/FormSection';
 import AnswerSection from './components/AnswerSection';
 import { Configuration, OpenAIApi } from 'openai';
 import { Modal, Button } from 'react-bootstrap';
-import React from 'react';
 import { useState } from 'react';
 import dotenv from 'dotenv'; // Importa dotenv
+
+import React, { useEffect } from 'react';
+
 dotenv.config(); // Carga las variables de entorno del archivo .env
 
 export const textToSpeech = (text) => {
@@ -81,7 +83,7 @@ const App = () => {
 				foundKeywords.forEach(keyword => {
 					console.log(`- ${keyword}`);
 				});
-				palabraEncontrada = "Mi creador es el Ingeniero Hansel Colmenarez. Además,";
+				palabraEncontrada = ' Mi creador es el Ingeniero Hansel Colmenarez. Además,';
 				palabraEncontradaComple = " Uso el modelo text-davinci-003 el cual es una versión específica del modelo de lenguaje GPT (Generative Pre-trained Transformer) desarrollado por OpenAI, conocido como GPT-3.5. He sido entrenada en una amplia variedad de datos textuales para desarrollar habilidades de procesamiento del lenguaje natural, como comprensión de lectura, generación de texto coherente y capacidad para responder preguntas.";
 				console.log("Mensaje de éxito");
 			} else {
@@ -118,11 +120,7 @@ const App = () => {
 				<h1>Hazel <span role="img" aria-label="robot">🤖</span></h1>
 				{storedValues.length < 1 && (
 					<p>
-						Soy un sistema automatizado de preguntas y respuestas, diseñado para ayudarte
-						en la búsqueda de información relevante. Te invito a preguntarme cualquier
-						consultas que puedas tener, y haré todo lo posible para ofrecerte una
-						Respuesta fiable. Por favor, ten en cuenta que soy una máquina y
-						opero únicamente en base a algoritmos programados.
+						Soy un sistema automatizado de preguntas y respuestas, diseñado para ayudarte en la búsqueda de información relevante. Te invito a preguntarme cualquier consultas que puedas tener, y haré todo lo posible para ofrecerte una Respuesta fiable. Por favor, ten en cuenta que soy una máquina y opero únicamente en base a algoritmos programados.
 					</p>
 				)}
 			</div>
