@@ -197,7 +197,7 @@ const App = () => {
 			<AnswerSection storedValues={storedValues} imageUrl={imageUrl} />
 
 			<Modal show={isLoading} backdrop="static" keyboard={false}>
-				<Modal.Body>
+				<Modal.Body className="text-center">
 					<div className="spinner-border" role="status">
 						<span className="sr-only">Pensando...</span>
 					</div>
