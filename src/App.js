@@ -69,6 +69,7 @@ const App = () => {
 	const [storedValues, setStoredValues] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorModalVisible, setErrorModalVisible] = useState(false);
+	const [imageUrl, setImageUrl] = useState('');
 
 	const generateResponse = async (newQuestion, setNewQuestion) => {
 		setIsLoading(true);
@@ -93,36 +94,64 @@ const App = () => {
 
 			const cadenaTexto = completeOptions.prompt;
 			const palabrasClave = ["es tu creador", "te creó", "Quien te creó"];
+			const palabrasClave2 = ["crea una imagen", "dibuja", "genera una imagen", "muestra una imagen"];
 			var palabraEncontrada = "";
 			var palabraEncontradaComple = "";
 
 			const foundKeywords = palabrasClave.filter(keyword => cadenaTexto.includes(keyword));
+			const foundKeywords2 = palabrasClave2.filter(keyword => cadenaTexto.includes(keyword));
 
-			if (foundKeywords.length > 0) {
-				console.log("Se encontraron las siguientes palabras clave:");
-				foundKeywords.forEach(keyword => {
-					console.log(`- ${keyword}`);
-				});
-				palabraEncontrada = ' Mi creador es el Ingeniero Hansel Colmenarez. Además,';
-				palabraEncontradaComple = " Uso el modelo text-davinci-003 el cual es una versión específica del modelo de lenguaje GPT (Generative Pre-trained Transformer) desarrollado por OpenAI, conocido como GPT-3.5. He sido entrenada en una amplia variedad de datos textuales para desarrollar habilidades de procesamiento del lenguaje natural, como comprensión de lectura, generación de texto coherente y capacidad para responder preguntas.";
-				console.log("Mensaje de éxito");
+			console.log("Lo que buscas: " + cadenaTexto);
+
+			if (foundKeywords2.length > 0 ){
+				try {
+					console.log("Entra a consultar en la API");
+
+					const imageResponse = await openai.createImage({
+					  prompt: cadenaTexto,
+					  n: 1,
+					  size: '512x512',
+					});
+			
+					const imageUrl = imageResponse.data.data[0].url;
+					setImageUrl(imageUrl);
+					console.log("URL IMAGEN: " + imageResponse.data.data[0].url);
+				  } catch (error) {
+					// Manejo de errores
+					if (error.response) {
+						console.log("Error al crear imagen-status " + error.response.status);
+						console.log("Error al crear imagen-data " + error.response.data);
+					  } else {
+						console.log("Error al crear imagen-mensaje " + error.message);
+					  }
+				  }
 			} else {
-				console.log("No se encontraron palabras clave.");
-			}
-
-			const response = await openai.createCompletion(completeOptions);
-
-			if (response.data.choices) {
-				response.data.choices[0].text = palabraEncontrada + response.data.choices[0].text + palabraEncontradaComple;
-				setStoredValues([
-					{
-						question: newQuestion,
-						answer: response.data.choices[0].text,
-					},
-					...storedValues,
-				]);
-				setNewQuestion('');
-			}
+				if (foundKeywords.length > 0) {
+					console.log("Se encontraron las siguientes palabras clave:");
+					foundKeywords.forEach(keyword => {
+						console.log(`- ${keyword}`);
+					});
+					palabraEncontrada = ' Mi creador es el Ingeniero Hansel Colmenarez. Además,';
+					palabraEncontradaComple = " Uso el modelo text-davinci-003 el cual es una versión específica del modelo de lenguaje GPT (Generative Pre-trained Transformer) desarrollado por OpenAI, conocido como GPT-3.5. He sido entrenada en una amplia variedad de datos textuales para desarrollar habilidades de procesamiento del lenguaje natural, como comprensión de lectura, generación de texto coherente y capacidad para responder preguntas.";
+					console.log("Mensaje de éxito");
+				} else {
+					console.log("No se encontraron palabras clave para tex-davinci.");
+				}
+	
+				const response = await openai.createCompletion(completeOptions);
+	
+				if (response.data.choices) {
+					response.data.choices[0].text = palabraEncontrada + response.data.choices[0].text + palabraEncontradaComple;
+					setStoredValues([
+						{
+							question: newQuestion,
+							answer: response.data.choices[0].text,
+						},
+						...storedValues,
+					]);
+					setNewQuestion('');
+				}				
+			}			
 		} catch (error) {
 			if (error.response && error.response.status === 401) {
 				console.error('Error de autorización: No estás autorizado para realizar esta acción.');
@@ -150,7 +179,8 @@ const App = () => {
 
 			<FormSection generateResponse={generateResponse} />
 
-			{storedValues.length > 0 && <AnswerSection storedValues={storedValues} />}
+			<AnswerSection storedValues={storedValues} imageUrl={imageUrl}/>
+
 			<Modal show={isLoading} backdrop="static" keyboard={false}>
 				<Modal.Body>
 					<div className="spinner-border" role="status">

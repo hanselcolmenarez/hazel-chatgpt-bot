@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { textToSpeech } from '../App.js';
 
-const AnswerSection = ({ storedValues }) => {
+const AnswerSection = ({ storedValues, imageUrl }) => {
   const copyText = (text) => {
     navigator.clipboard.writeText(text);
   };
@@ -53,6 +53,11 @@ const AnswerSection = ({ storedValues }) => {
           </div>
         )}
       </div>
+      {imageUrl && imageUrl !== '' && (
+        <div>
+          <img src={imageUrl} alt="Imagen generada" />
+        </div>
+      )}
     </>
   );
 };
