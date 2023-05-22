@@ -3,6 +3,10 @@ import AnswerSection from './components/AnswerSection';
 import { Configuration, OpenAIApi } from 'openai';
 import { Modal, Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
+import Menu from './components/Menu';
+import './App.css';
+import { useNavigate } from 'react-router-dom';
+
 import dotenv from 'dotenv'; // Importa dotenv
 
 dotenv.config(); // Carga las variables de entorno del archivo .env
@@ -38,26 +42,34 @@ export const textToSpeech = (text) => {
 
 const App = () => {
 
+	const navigate = useNavigate();
+
+	const logout = () => {
+		// Lógica para cerrar sesión
+		console.log('Cerrar sesión');
+		navigate('/');
+	};
+
 	useEffect(() => {
 		const video = document.getElementById('hazelmodel');
-	
+
 		const playVideo = () => {
-		  video.play().catch((error) => {
-			console.error('Error al reproducir el video:', error);
-		  });
+			video.play().catch((error) => {
+				console.error('Error al reproducir el video:', error);
+			});
 		};
-	
+
 		const handleClick = () => {
-		  document.removeEventListener('click', handleClick);
-		  playVideo();
+			document.removeEventListener('click', handleClick);
+			playVideo();
 		};
-	
+
 		document.addEventListener('click', handleClick);
-	
+
 		return () => {
-		  document.removeEventListener('click', handleClick);
+			document.removeEventListener('click', handleClick);
 		};
-	  }, []);
+	}, []);
 
 	const configuration = new Configuration({
 		organization: process.env.REACT_APP_ORGANIZATION,
@@ -103,28 +115,28 @@ const App = () => {
 
 			console.log("Lo que buscas: " + cadenaTexto);
 
-			if (foundKeywords2.length > 0 ){
+			if (foundKeywords2.length > 0) {
 				try {
 					console.log("Entra a consultar en la API");
 
 					const imageResponse = await openai.createImage({
-					  prompt: cadenaTexto,
-					  n: 1,
-					  size: '512x512',
+						prompt: cadenaTexto,
+						n: 1,
+						size: '512x512',
 					});
-			
+
 					const imageUrl = imageResponse.data.data[0].url;
 					setImageUrl(imageUrl);
 					console.log("URL IMAGEN: " + imageResponse.data.data[0].url);
-				  } catch (error) {
+				} catch (error) {
 					// Manejo de errores
 					if (error.response) {
 						console.log("Error al crear imagen-status " + error.response.status);
 						console.log("Error al crear imagen-data " + error.response.data);
-					  } else {
+					} else {
 						console.log("Error al crear imagen-mensaje " + error.message);
-					  }
-				  }
+					}
+				}
 			} else {
 				if (foundKeywords.length > 0) {
 					console.log("Se encontraron las siguientes palabras clave:");
@@ -137,9 +149,9 @@ const App = () => {
 				} else {
 					console.log("No se encontraron palabras clave para tex-davinci.");
 				}
-	
+
 				const response = await openai.createCompletion(completeOptions);
-	
+
 				if (response.data.choices) {
 					response.data.choices[0].text = palabraEncontrada + response.data.choices[0].text + palabraEncontradaComple;
 					setStoredValues([
@@ -150,8 +162,8 @@ const App = () => {
 						...storedValues,
 					]);
 					setNewQuestion('');
-				}				
-			}			
+				}
+			}
 		} catch (error) {
 			if (error.response && error.response.status === 401) {
 				console.error('Error de autorización: No estás autorizado para realizar esta acción.');
@@ -165,6 +177,9 @@ const App = () => {
 
 	return (
 		<div>
+			<div className="d-flex justify-content-center">
+				<Menu logout={logout} />
+			</div>
 			<div className="header-section">
 				<h1>Hazel <span role="img" aria-label="robot">🤖</span></h1>
 				{storedValues.length < 1 && (
@@ -179,7 +194,7 @@ const App = () => {
 
 			<FormSection generateResponse={generateResponse} />
 
-			<AnswerSection storedValues={storedValues} imageUrl={imageUrl}/>
+			<AnswerSection storedValues={storedValues} imageUrl={imageUrl} />
 
 			<Modal show={isLoading} backdrop="static" keyboard={false}>
 				<Modal.Body>

@@ -1,94 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background: #1D1E20;
-  color: #DADADB;
-  max-width: 800px;
-  margin: 0 auto;
+  font-family: 'Poppins', sans-serif !important;
+  background: #1D1E20 !important;
+  color: #DADADB !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
 }
 
 @media screen and (max-width: 800px) {
   body {
-    max-width: 100%;
-    padding: 0 20px;
+    max-width: 100% !important;
+    padding: 0 20px !important;
   }
 }
 
 .header-section {
-  margin: 30px 0;
-  text-align: center;
+  margin: 30px 0 !important;
+  text-align: center !important;
 }
 
 .header-section h1 {
-  font-size: 2.7rem;
-  font-weight: 700;
+  font-size: 2.7rem !important;
+  font-weight: 700 !important;
 }
 
 .header-section p {
-  font-size: 1rem;
-  font-weight: 300;
-  margin-top: 10px;
+  font-size: 1rem !important;
+  font-weight: 300 !important;
+  margin-top: 10px !important;
 }
 
 .form-section {
-  margin: 30px 0;
+  margin: 30px 0 !important;
 }
 
 textarea,
 button {
-  width: 100%;
-  border-radius: 5px;
-  border: none;
+  width: 100% !important;
+  border-radius: 5px !important;
+  border: none !important;
 }
 
 .form-control {
-  margin-bottom: 20px;
-  padding: 20px;
-  font-size: 1rem;
+  margin-bottom: 20px !important;
+  padding: 20px !important;
+  font-size: 1rem !important;
   font-family: 'Poppins',
-    sans-serif;
-  outline: none;
-  background-color: #343536;
-  color: #DADADB;
-  transition: all 0.5s ease-in-out;
+    sans-serif !important;
+  outline: none !important;
+  background-color: #343536 !important;
+  color: #DADADB !important;
+  transition: all 0.5s ease-in-out !important;
 }
 
 .form-control:focus {
-  border-left: 5px solid #CA228C;
-  border-top: 5px solid #CA228C;
-  border-top-left-radius: 0%;
-  border-bottom-left-radius: 0%;
-  border-top-right-radius: 0%;
+  border-left: 5px solid #CA228C !important;
+  border-top: 5px solid #CA228C !important;
+  border-top-left-radius: 0% !important;
+  border-bottom-left-radius: 0% !important;
+  border-top-right-radius: 0% !important;
 }
 
 .btn {
-  background: #000000;
-  color: #DADADB;
-  padding: 20px 0;
-  font-size: 1.2rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.5s ease-in-out;
+  background: #000000 !important;
+  color: #DADADB !important;
+  padding: 20px 0 !important;
+  font-size: 1.2rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.5s ease-in-out !important;
 }
 
 .btn:hover {
-  border-left: 5px solid #CA228C;
-  border-top: 5px solid #CA228C;
-  border-top-left-radius: 0%;
-  border-bottom-left-radius: 0%;
-  border-top-right-radius: 0%;
+  border-left: 5px solid #CA228C !important;
+  border-top: 5px solid #CA228C !important;
+  border-top-left-radius: 0% !important;
+  border-bottom-left-radius: 0% !important;
+  border-top-right-radius: 0% !important;
 }
 
 .hr-line {
-  margin: 70px 0 20px;
-  border: 1px solid #343536;
+  margin: 70px 0 20px !important;
+  border: 1px solid #343536 !important;
 }
 
 /* .answer-container {
@@ -97,38 +97,62 @@ button {
 } */
 
 .answer-section {
-  margin: 30px 0;
-  position: relative;
+  margin: 30px 0 !important;
+  position: relative !important;
 
 }
 
 .answer-section .question {
-  background-color: #CA228C;
-  padding: 20px;
+  background-color: #CA228C !important;
+  padding: 20px !important;
 }
 
 
 .answer-section .answer {
-  background-color: #343536;
-  padding: 20px;
+  background-color: #343536 !important;
+  padding: 20px !important;
 }
 
 .copy-icon {
-  position: absolute;
-  background-color: #000000;
-  width: 50px;
-  height: 50px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  bottom: -10px;
-  right: -10px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.5s ease-in-out;
+  position: absolute !important;
+  background-color: #000000 !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 5px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  bottom: -10px !important;
+  right: -10px !important;
+  font-size: 1.2rem !important;
+  cursor: pointer !important;
+  transition: all 0.5s ease-in-out !important;
 }
 
 .copy-icon:hover {
-  background-color: #CA228C;
+  background-color: #CA228C !important;
+}
+
+.navbar {
+  background-color: #1D1E20 !important;
+  padding: 20px !important;
+}
+
+.nav-link {
+  color: #DADADB !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  margin-right: 15px !important;
+  transition: color 0.3s ease-in-out !important;
+}
+
+.nav-link:hover {
+  color: #CA228C !important;
+}
+
+.navbar-brand {
+  color: #DADADB !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin-right: 15px !important;
 }
