@@ -106,7 +106,7 @@ const App = () => {
 
 			const cadenaTexto = completeOptions.prompt;
 			const palabrasClave = ["es tu creador", "te creó", "Quien te creó"];
-			const palabrasClave2 = ["crea una imagen", "dibuja", "genera una imagen", "muestra una imagen"];
+			const palabrasClave2 = ["imagen acerca", "imagen sobre", "imagen de", "crea un dibujo", "crea una imagen", "dibuja", "genera una imagen", "muestra una imagen"];
 			var palabraEncontrada = "";
 			var palabraEncontradaComple = "";
 
