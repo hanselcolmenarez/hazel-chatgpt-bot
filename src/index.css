@@ -156,3 +156,9 @@ button {
   font-weight: 700 !important;
   margin-right: 15px !important;
 }
+
+.modal-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

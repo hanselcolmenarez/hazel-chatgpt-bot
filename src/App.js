@@ -196,13 +196,14 @@ const App = () => {
 
 			<AnswerSection storedValues={storedValues} imageUrl={imageUrl} />
 
-			<Modal show={isLoading} backdrop="static" keyboard={false}>
-				<Modal.Body className="text-center">
+			<Modal show={isLoading} backdrop="static" keyboard={false} className="modal-container">
+				<Modal.Body>
 					<div className="spinner-border" role="status">
 						<span className="sr-only">Pensando...</span>
 					</div>
 				</Modal.Body>
 			</Modal>
+
 			<Modal show={errorModalVisible} onHide={() => setErrorModalVisible(false)} onShow={() => textToSpeech("No estás autorizado para realizar esta acción.")}>
 				<Modal.Header closeButton>
 					<Modal.Title>Error de autorización</Modal.Title>
